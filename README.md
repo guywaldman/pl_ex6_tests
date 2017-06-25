@@ -1,8 +1,8 @@
 # Tests for ex6 // PL 234319
 
-## Don't Know GitHub?
+## New to GitHub?
 
-Download this Repository and follow the instructions.
+Download this Repository (big green button) and follow the instructions in this _README_.
 
 ---
 
