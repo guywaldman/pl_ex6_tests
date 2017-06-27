@@ -3,36 +3,35 @@
 import frog
 import sys
 
-# --------------------------------- constants ---------------------------------
-RANGE = 100
-TRIES_MAX = 100000
-
+RANGE_A = (-50, 50)
+RANGE_B = (-5, 5)
+MAX_GUESSES = 10e4
 
 passed = True
+passes = 0
+
+print "Running test, please wait..."
 
 try:
-    for a in range(-RANGE, RANGE):
-        if (a % 10 == 0):
-            sys.stdout.write('.')
-        sys.stdout.flush()
-        gen = frog.frog()
-        counter = 0
-        try:
-            counter = 0
-            for x in gen:
-                if (counter > TRIES_MAX):
-                    passed = False
-                    raise StopIteration(a)
-                if (x == a):
-                    raise StopIteration(a)
-                counter += 1
-        except StopIteration as e:
-            if not passed:
-                raise Exception(a)
-            pass
+        for a in range(RANGE_A[0], RANGE_A[1]):
+                for b in range(RANGE_B[0], RANGE_B[1]):
+                        sys.stdout.flush()
+                        gen = frog.frog()
+                        try:
+                                counter = 0
+                                for guessed in gen:
+                                        if (guessed == a + b * counter):
+                                            passes += 1
+                                            raise StopIteration(a)
+                                        elif (counter > MAX_GUESSES):
+                                            passed = False
+                                            raise StopIteration(a)
+                                        counter += 1
+                        except StopIteration as e:
+                                if not passed:
+                                        raise Exception(a)
+                                pass
 except Exception as e:
-    sys.stdout.write('\n')
-    print "FAILED ( when trying to guess", e, ")."
+        print "FAILED ( when trying to guess", e, ").\n"
 if (passed):
-    sys.stdout.write('\nPASSED')
-sys.stdout.write('\n')
+        sys.stdout.write('PASSED\n')
